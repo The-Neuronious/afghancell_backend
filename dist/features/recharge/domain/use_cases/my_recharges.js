@@ -26,7 +26,7 @@ class MyRechargesUseCase {
                     description: "Please insert from date and to date",
                 });
             }
-            const result = yield this.rechargeRepository.getMyRecharge(params.user);
+            const result = yield this.rechargeRepository.getMyRecharge(params.user, params.query.from.toString(), params.query.to.toString());
             return result;
         });
     }

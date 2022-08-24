@@ -3,6 +3,7 @@ import UserModel from "../../../user/data/models/interfaces/user";
 import RechargeModel from "../models/interface/recharge";
 import Recharge from "../models/recharge_model";
 import RechargeDS from "./interface/recharge_data_source";
+import moment from "moment";
 
 class RechargeDataSource implements RechargeDS {
   async rechargeUser(recharge: RechargeModel): Promise<RechargeModel> {
@@ -23,10 +24,21 @@ class RechargeDataSource implements RechargeDS {
     }
   }
 
-  async getMyRecharge(user: UserModel): Promise<RechargeModel[]> {
-    const recharges = await Recharge.find({ user: user }).populate(
-      "recharged_user"
-    );
+  async getMyRecharge(
+    user: UserModel,
+    from: string,
+    to: string
+  ): Promise<RechargeModel[]> {
+    const fromDate = moment(from, "DD-MM-YYYY");
+    const toDate = moment(to, "DD-MM-YYYY");
+    const recharges = await Recharge.find({
+      user: user,
+      createdAt: {
+        $gte: moment(fromDate).startOf("day").toDate(),
+        $lte: moment(toDate).endOf("day").toDate(),
+      },
+    }).populate("recharged_user");
+
     if (recharges) {
       return recharges;
     } else {

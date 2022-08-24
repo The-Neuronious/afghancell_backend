@@ -17,7 +17,11 @@ class MyRechargesUseCase implements UseCase<RechargeModel[], Request> {
         description: "Please insert from date and to date",
       });
     }
-    const result = await this.rechargeRepository.getMyRecharge(params.user!);
+    const result = await this.rechargeRepository.getMyRecharge(
+      params.user!,
+      params.query.from.toString(),
+      params.query.to.toString()
+    );
     return result;
   }
 }

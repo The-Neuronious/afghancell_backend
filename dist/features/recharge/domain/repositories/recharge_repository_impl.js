@@ -28,9 +28,9 @@ class RechargeRepositoryImpl {
             return yield this.rechargeDataSource.rechargeUser(recharge);
         });
     }
-    getMyRecharge(user) {
+    getMyRecharge(user, from, to) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.rechargeDataSource.getMyRecharge(user);
+            return yield this.rechargeDataSource.getMyRecharge(user, from, to);
         });
     }
 }

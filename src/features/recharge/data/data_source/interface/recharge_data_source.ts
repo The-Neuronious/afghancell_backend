@@ -3,7 +3,7 @@ import RechargeModel from "../../models/interface/recharge";
 
 interface RechargeDS {
   rechargeUser(recharge: RechargeModel): Promise<RechargeModel>;
-  getMyRecharge(user: UserModel): Promise<RechargeModel[]>;
+  getMyRecharge(user: UserModel, from: string, to: string): Promise<RechargeModel[]>;
 }
 
 export default RechargeDS;

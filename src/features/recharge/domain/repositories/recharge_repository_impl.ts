@@ -26,8 +26,8 @@ class RechargeRepositoryImpl implements RechargeRepository {
     return await this.rechargeDataSource.rechargeUser(recharge);
   }
 
-  async getMyRecharge(user: UserModel): Promise<RechargeModel[]> {
-    return await this.rechargeDataSource.getMyRecharge(user);
+  async getMyRecharge(user: UserModel, from: string, to: string): Promise<RechargeModel[]> {
+    return await this.rechargeDataSource.getMyRecharge(user, from, to);
   }
 }
 
