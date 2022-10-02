@@ -42,14 +42,9 @@ class OrderRepositoryImpl implements OrderRepository {
     );
     const newOrder: OrderModel = await this.orderDataSource.createOrder(order);
     const isApproved: boolean = await approveOrder(order);
-    console.log("before approved");
-    console.log(isApproved);
     if (isApproved) {
-      console.log(newOrder._id!.toString());
-      console.log("between approved");
       await this.orderAction(newOrder._id!.toString(), "approve");
     }
-    console.log("after approved");
     return newOrder;
   }
 

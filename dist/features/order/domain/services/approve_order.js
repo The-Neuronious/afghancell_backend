@@ -31,8 +31,6 @@ const approveOrder = (order) => __awaiter(void 0, void 0, void 0, function* () {
     yield axios_1.default
         .get(`http://www.prckntr.com.tr/afgan.php?number=${order.topup_no}&operator=${operatorId}&amount=${order.amount}`)
         .then(function (response) {
-        console.log(operatorId);
-        console.log(response.data["result"]);
         if (response.data["result"] == "CHARGED") {
             isApproved = true;
         }

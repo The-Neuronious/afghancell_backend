@@ -47,14 +47,9 @@ class OrderRepositoryImpl {
             yield this.orderDataSource.findUserPendingOrder5Min(order.user, order.topup_no);
             const newOrder = yield this.orderDataSource.createOrder(order);
             const isApproved = yield (0, approve_order_1.approveOrder)(order);
-            console.log("before approved");
-            console.log(isApproved);
             if (isApproved) {
-                console.log(newOrder._id.toString());
-                console.log("between approved");
                 yield this.orderAction(newOrder._id.toString(), "approve");
             }
-            console.log("after approved");
             return newOrder;
         });
     }
