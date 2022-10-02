@@ -16,6 +16,7 @@ const order_data_source_1 = __importDefault(require("../../data/data_source/orde
 const order_1 = require("../services/order");
 const moment_1 = __importDefault(require("moment"));
 const days_1 = require("../../../recharge/domain/services/days");
+const approve_order_1 = require("../services/approve_order");
 class OrderRepositoryImpl {
     constructor() {
         this.orderDataSource = new order_data_source_1.default();
@@ -44,7 +45,17 @@ class OrderRepositoryImpl {
         return __awaiter(this, void 0, void 0, function* () {
             (0, order_1.checkOrderAmount)(order.user.amount, order.amount);
             yield this.orderDataSource.findUserPendingOrder5Min(order.user, order.topup_no);
-            return yield this.orderDataSource.createOrder(order);
+            const newOrder = yield this.orderDataSource.createOrder(order);
+            const isApproved = yield (0, approve_order_1.approveOrder)(order);
+            console.log("before approved");
+            console.log(isApproved);
+            if (isApproved) {
+                console.log(newOrder._id.toString());
+                console.log("between approved");
+                yield this.orderAction(newOrder._id.toString(), "approve");
+            }
+            console.log("after approved");
+            return newOrder;
         });
     }
     getNoOfOrdersByWeek() {

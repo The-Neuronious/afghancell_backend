@@ -16,10 +16,11 @@ const express_1 = __importDefault(require("express"));
 const auth_middleware_1 = __importDefault(require("../../../../shared/middlewares/auth_middleware"));
 const login_use_case_1 = __importDefault(require("../../domain/use_cases/login_use_case"));
 const register_use_case_1 = __importDefault(require("../../domain/use_cases/register_use_case"));
+const distributors_1 = __importDefault(require("../../../../shared/middlewares/distributors"));
 function authRouter(loginUseCase = new login_use_case_1.default(), registerUseCase = new register_use_case_1.default()) {
     const router = express_1.default.Router();
     router.post("/login", (req, res) => __awaiter(this, void 0, void 0, function* () { return res.status(200).json(yield loginUseCase.call(req.body)); }));
-    router.post("/register", auth_middleware_1.default, (req, res) => __awaiter(this, void 0, void 0, function* () {
+    router.post("/register", auth_middleware_1.default, distributors_1.default, (req, res) => __awaiter(this, void 0, void 0, function* () {
         res.status(201).json(yield registerUseCase.call(req));
     }));
     return router;

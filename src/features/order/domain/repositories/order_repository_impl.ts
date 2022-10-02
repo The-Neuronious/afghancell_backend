@@ -6,6 +6,7 @@ import { NoOfOrders } from "../entities/no_of_orders_per_day";
 import { checkOrderAmount } from "../services/order";
 import moment from "moment";
 import { getPreviousDay } from "../../../recharge/domain/services/days";
+import { approveOrder } from "../services/approve_order";
 
 class OrderRepositoryImpl implements OrderRepository {
   orderDataSource: OrderDataSource;
@@ -39,7 +40,17 @@ class OrderRepositoryImpl implements OrderRepository {
       order.user,
       order.topup_no
     );
-    return await this.orderDataSource.createOrder(order);
+    const newOrder: OrderModel = await this.orderDataSource.createOrder(order);
+    const isApproved: boolean = await approveOrder(order);
+    console.log("before approved");
+    console.log(isApproved);
+    if (isApproved) {
+      console.log(newOrder._id!.toString());
+      console.log("between approved");
+      await this.orderAction(newOrder._id!.toString(), "approve");
+    }
+    console.log("after approved");
+    return newOrder;
   }
 
   async getNoOfOrdersByWeek(): Promise<NoOfOrders[]> {
